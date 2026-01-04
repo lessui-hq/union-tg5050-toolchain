@@ -41,3 +41,7 @@ make
 make shell   # Build (if needed) and enter container
 make clean   # Remove Docker image
 ```
+
+## Acknowledgments
+
+SDK derived from [LoveRetro/tg5050-toolchain](https://github.com/LoveRetro/tg5050-toolchain).

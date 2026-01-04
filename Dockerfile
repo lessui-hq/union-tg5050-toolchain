@@ -32,7 +32,7 @@ ENV SYSROOT=/opt/tg5050-sysroot
 # Download and extract SDK libraries
 ENV SDK_VERSION=20251208
 ENV SDK_FILE=sdk_tg5050_linux_v1.0.0.tgz
-ENV SDK_URL=https://github.com/LoveRetro/tg5050-toolchain/releases/download/${SDK_VERSION}/${SDK_FILE}
+ENV SDK_URL=https://github.com/lessui-hq/union-tg5050-toolchain/releases/download/${SDK_VERSION}/${SDK_FILE}
 
 COPY support/extract-sdk.sh /tmp/extract-sdk.sh
 RUN chmod +x /tmp/extract-sdk.sh && \
