@@ -62,11 +62,16 @@ ENV CMAKE_TOOLCHAIN_FILE=/opt/toolchain.cmake
 ENV PKG_CONFIG_SYSROOT_DIR=${SYSROOT}
 ENV PKG_CONFIG_PATH=${SYSROOT}/usr/lib/pkgconfig:${SYSROOT}/usr/share/pkgconfig
 
-# Build additional libraries
+# Build additional libraries (before setting sysroot flags)
 COPY support/build-extra-libs.sh /tmp/build-extra-libs.sh
 RUN chmod +x /tmp/build-extra-libs.sh && \
     /tmp/build-extra-libs.sh && \
     rm /tmp/build-extra-libs.sh
+
+# Compiler/linker flags to find SDK headers and libraries
+ENV CFLAGS="-I${SYSROOT}/usr/include"
+ENV CPPFLAGS="-I${SYSROOT}/usr/include"
+ENV LDFLAGS="-L${SYSROOT}/usr/lib -Wl,-rpath-link=${SYSROOT}/usr/lib"
 
 # Platform identification
 ENV UNION_PLATFORM=tg5050
