@@ -1,46 +1,31 @@
-# TG5050 Toolchain
+# TG5050 Toolchain Docker Image
 
-Docker-based native ARM64 build environment for the TG5050 handheld.
+Native ARM64 build environment for TG5050 handheld devices.
 
-## Quick Start
+## Usage
 
+The image is automatically built and published by GitHub Actions to `ghcr.io/lessui-hq/union-tg5050-toolchain:latest`.
+
+From the LessUI repository:
 ```bash
-make shell
-
-# Inside the container
-cd ~/workspace/your-project
-make
+make build PLATFORM=tg5050
 ```
 
-## Requirements
-
-- Docker (on ARM64 host)
-- make
-
-## Environment Variables
-
-| Variable | Value |
-|----------|-------|
-| `UNION_PLATFORM` | `tg5050` |
-| `SYSROOT` | `/opt/tg5050-sysroot` |
-| `PKG_CONFIG_PATH` | Points to SDK libraries |
-| `CMAKE_TOOLCHAIN_FILE` | `/opt/toolchain.cmake` |
-
-## Included Libraries
-
-**Graphics**: SDL2, OpenGL ES 2, DRM, Mali
-**Audio**: ALSA, TinyALSA, libsamplerate
-**Compression**: zlib, bzip2, lz4, xz, zstd, libzip
-**Text/Fonts**: FreeType, HarfBuzz
-**Images**: libpng
-**System**: GLib, D-Bus, udev, SQLite3
-
-## Commands
+## Local Development
 
 ```bash
-make shell   # Build (if needed) and enter container
-make clean   # Remove Docker image
+make shell  # Enters the toolchain container
 ```
+
+The container's `/root/workspace` is bound to `./workspace` by default.
+
+## Toolchain Details
+
+- **Compiler:** `aarch64-linux-gnu-gcc` (Ubuntu 13.3)
+- **Sysroot:** `/opt/tg5050-sysroot`
+- **SDK libraries:** SDL2, OpenGL ES 2, DRM, Mali, ALSA, TinyALSA, FreeType, HarfBuzz, GLib, and more
+
+See [setup-env.sh](./support/setup-env.sh) for environment variables exported automatically.
 
 ## Acknowledgments
 
