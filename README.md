@@ -1,6 +1,6 @@
 # TG5050 Toolchain Docker Image
 
-Native ARM64 build environment for TG5050 handheld devices.
+ARM64 build environment for TG5050 handheld devices.
 
 ## Usage
 
@@ -21,9 +21,10 @@ The container's `/root/workspace` is bound to `./workspace` by default.
 
 ## Toolchain Details
 
-- **Compiler:** `aarch64-linux-gnu-gcc` (Ubuntu 13.3)
+- **GCC:** 10.3.0 (built with crosstool-NG)
+- **glibc:** 2.33 (in toolchain sysroot)
 - **Sysroot:** `/opt/tg5050-sysroot`
-- **SDK libraries:** SDL2, OpenGL ES 2, DRM, Mali, ALSA, TinyALSA, FreeType, HarfBuzz, GLib, and more
+- **SDK libraries:** SDL2, OpenGL ES 2, DRM, Mali, ALSA, TinyALSA, FreeType, HarfBuzz, GLib
 
 See [setup-env.sh](./support/setup-env.sh) for environment variables exported automatically.
 
