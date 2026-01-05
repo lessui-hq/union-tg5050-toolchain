@@ -3,7 +3,7 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-# Install native build tools
+# Install build tools and aarch64 cross-compiler
 RUN apt-get update && apt-get install -y \
     autoconf \
     automake \
@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     ca-certificates \
     cmake \
+    g++-aarch64-linux-gnu \
+    gcc-aarch64-linux-gnu \
     gettext \
     git \
     libtool \
@@ -42,11 +44,12 @@ RUN chmod +x /tmp/extract-sdk.sh && \
     /tmp/extract-sdk.sh && \
     rm -rf /sdk /tmp/${SDK_FILE} /tmp/extract-sdk.sh
 
-# Native compiler - use system GCC
-ENV CC=gcc \
-    CXX=g++ \
-    AR=ar \
-    LD=ld
+# Cross-compiler prefix (uses aarch64-linux-gnu toolchain)
+ENV CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
+ENV CC=${CROSS_COMPILE}gcc \
+    CXX=${CROSS_COMPILE}g++ \
+    AR=${CROSS_COMPILE}ar \
+    LD=${CROSS_COMPILE}ld
 
 # Point builds at the SDK libraries
 ENV PREFIX=${SYSROOT}/usr
@@ -67,6 +70,10 @@ RUN chmod +x /tmp/build-extra-libs.sh && \
 
 # Platform identification
 ENV UNION_PLATFORM=tg5050
+
+# Shell environment setup
+COPY support/setup-env.sh /root/setup-env.sh
+RUN cat /root/setup-env.sh >> /root/.bashrc
 
 # Workspace
 RUN mkdir -p /root/workspace
